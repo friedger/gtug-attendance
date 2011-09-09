@@ -1,0 +1,12 @@
+# General
+.DS_Store
+
+# Android
+Attendance-Android/bin
+Attendance-Android/gen
+Attendance-Android/.apt_generated
+
+# App Engine
+Attendance-AppEngine/gwt-unitCache/*
+Attendance-AppEngine/war/attendance/WEB-INF/classes
+Attendance-AppEngine/war/attendance/WEB-INF/appengine-generated
