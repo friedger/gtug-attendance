@@ -15,6 +15,12 @@
  */
 package be.niob.gtug.attendance.client;
 
+import be.niob.gtug.attendance.client.MyRequestFactory.HelloWorldRequest;
+import be.niob.gtug.attendance.client.MyRequestFactory.MessageRequest;
+import be.niob.gtug.attendance.server.DeviceService;
+import be.niob.gtug.attendance.server.DeviceServiceAsync;
+import be.niob.gtug.attendance.shared.MessageProxy;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.InputElement;
@@ -32,10 +38,6 @@ import com.google.web.bindery.event.shared.SimpleEventBus;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
-
-import be.niob.gtug.attendance.client.MyRequestFactory.HelloWorldRequest;
-import be.niob.gtug.attendance.client.MyRequestFactory.MessageRequest;
-import be.niob.gtug.attendance.shared.MessageProxy;
 
 public class AttendanceWidget extends Composite {
 
@@ -57,6 +59,9 @@ public class AttendanceWidget extends Composite {
 
   @UiField
   DivElement status;
+  
+  @UiField
+  DivElement registrations;
 
   @UiField
   Button sayHelloButton;
@@ -149,5 +154,21 @@ public class AttendanceWidget extends Composite {
         });
       }
     });
+    
+    //GWT.create(DeviceInfo.class);
+    
+    registrations.setInnerText("wortelkes");
+    
+    //DeviceInfo.getDeviceInfoForUser("versluyssander@gmail.com");
+    
+    //List<DeviceInfo> devices = DeviceInfo.getAllDevices();
+    /*if (devices.size() > 0) {
+	    StringBuffer buffer = new StringBuffer();
+	    for (DeviceInfo info : devices)
+	    	buffer.append(info.toString()).append("<br/>");
+	    registrations.setInnerText(buffer.toString());   
+    }*/
+
+    
   }
 }

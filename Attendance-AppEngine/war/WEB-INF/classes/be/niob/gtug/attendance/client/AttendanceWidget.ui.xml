@@ -8,6 +8,10 @@
             <p>Try out roundtripping data to App Engine.</p>
             <g:Button ui:field="sayHelloButton">Say Hello</g:Button>
         </div>
+        
+        <div ui:field="registrations">
+        	No registrations yet.
+        </div>
 
         <div id="message">
             <p>Send a poke to your Android device using Cloud to Device Messaging.</p>

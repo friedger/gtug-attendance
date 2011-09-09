@@ -15,7 +15,11 @@
  */
 package be.niob.gtug.attendance.client;
 
+import be.niob.gtug.attendance.server.DeviceService;
+import be.niob.gtug.attendance.server.DeviceServiceAsync;
+
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -23,6 +27,8 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class Attendance implements EntryPoint {
 
+	//private final DeviceServiceAsync deviceService = GWT.create(DeviceService.class);
+	
   /**
    * This is the entry point method.
    */
