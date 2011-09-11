@@ -9,9 +9,11 @@ Attendance-Android/.factory_path
 
 # App Engine
 Attendance-AppEngine/gwt-unitCache/*
-Attendance-AppEngine/war/attendance/WEB-INF/classes
-Attendance-AppEngine/war/attendance/WEB-INF/deploy
-Attendance-AppEngine/war/attendance/WEB-INF/appengine-generated
+
+Attendance-AppEngine/war/WEB-INF/classes
+Attendance-AppEngine/war/WEB-INF/deploy
+Attendance-AppEngine/war/WEB-INF/appengine-generated
+
 Attendance-AppEngine/.apt_generated
 Attendance-AppEngine/.factory_path
 Attendance-AppEngine/.gwt
