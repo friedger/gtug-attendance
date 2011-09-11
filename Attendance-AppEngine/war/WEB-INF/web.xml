@@ -42,12 +42,12 @@
   
   <!--  DeviceService Servlet -->
   <servlet>
-    <servlet-name>deviceService</servlet-name>
+    <servlet-name>deviceServiceImpl</servlet-name>
     <servlet-class>be.niob.gtug.attendance.server.DeviceServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
-    <servlet-name>deviceService</servlet-name>
+    <servlet-name>deviceServiceImpl</servlet-name>
     <url-pattern>/attendance/devices</url-pattern>
   </servlet-mapping>
 

@@ -15,10 +15,11 @@
  */
 package be.niob.gtug.attendance.client;
 
+import java.util.List;
+
 import be.niob.gtug.attendance.client.MyRequestFactory.HelloWorldRequest;
 import be.niob.gtug.attendance.client.MyRequestFactory.MessageRequest;
-import be.niob.gtug.attendance.server.DeviceService;
-import be.niob.gtug.attendance.server.DeviceServiceAsync;
+import be.niob.gtug.attendance.server.DeviceInfo;
 import be.niob.gtug.attendance.shared.MessageProxy;
 
 import com.google.gwt.core.client.GWT;
@@ -30,6 +31,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -41,134 +43,161 @@ import com.google.web.bindery.requestfactory.shared.ServerFailure;
 
 public class AttendanceWidget extends Composite {
 
-  private static final int STATUS_DELAY = 4000;
-  private static final String STATUS_ERROR = "status error";
-  private static final String STATUS_NONE = "status none";
-  private static final String STATUS_SUCCESS = "status success";
+	private static final int STATUS_DELAY = 4000;
+	private static final String STATUS_ERROR = "status error";
+	private static final String STATUS_NONE = "status none";
+	private static final String STATUS_SUCCESS = "status success";
 
-  interface AttendanceUiBinder extends UiBinder<Widget, AttendanceWidget> {
-  }
+	interface AttendanceUiBinder extends UiBinder<Widget, AttendanceWidget> {
+	}
 
-  private static AttendanceUiBinder uiBinder = GWT.create(AttendanceUiBinder.class);
+	private static AttendanceUiBinder uiBinder = GWT
+			.create(AttendanceUiBinder.class);
 
-  @UiField
-  TextAreaElement messageArea;
+	@UiField
+	TextAreaElement messageArea;
 
-  @UiField
-  InputElement recipientArea;
+	@UiField
+	InputElement recipientArea;
 
-  @UiField
-  DivElement status;
-  
-  @UiField
-  DivElement registrations;
+	@UiField
+	DivElement status;
 
-  @UiField
-  Button sayHelloButton;
+	@UiField
+	DivElement registrations;
 
-  @UiField
-  Button sendMessageButton;
+	@UiField
+	Button sayHelloButton;
 
-  /**
-   * Timer to clear the UI.
-   */
-  Timer timer = new Timer() {
-    @Override
-    public void run() {
-      status.setInnerText("");
-      status.setClassName(STATUS_NONE);
-      recipientArea.setValue("");
-      messageArea.setValue("");
-    }
-  };
+	@UiField
+	Button sendMessageButton;
 
-  private void setStatus(String message, boolean error) {
-    status.setInnerText(message);
-    if (error) {
-      status.setClassName(STATUS_ERROR);
-    } else {
-      if (message.length() == 0) {
-        status.setClassName(STATUS_NONE);
-      } else {
-        status.setClassName(STATUS_SUCCESS);
-      }
-    }
+	/**
+	 * Timer to clear the UI.
+	 */
+	Timer timer = new Timer() {
+		@Override
+		public void run() {
+			status.setInnerText("");
+			status.setClassName(STATUS_NONE);
+			recipientArea.setValue("");
+			messageArea.setValue("");
+		}
+	};
 
-    timer.schedule(STATUS_DELAY);
-  }
+	private void setStatus(String message, boolean error) {
+		status.setInnerText(message);
+		if (error) {
+			status.setClassName(STATUS_ERROR);
+		} else {
+			if (message.length() == 0) {
+				status.setClassName(STATUS_NONE);
+			} else {
+				status.setClassName(STATUS_SUCCESS);
+			}
+		}
 
-  public AttendanceWidget() {
-    initWidget(uiBinder.createAndBindUi(this));
-    sayHelloButton.getElement().setClassName("send centerbtn");
-    sendMessageButton.getElement().setClassName("send");
+		timer.schedule(STATUS_DELAY);
+	}
 
-    final EventBus eventBus = new SimpleEventBus();
-    final MyRequestFactory requestFactory = GWT.create(MyRequestFactory.class);
-    requestFactory.initialize(eventBus);
+	public AttendanceWidget() {
+		initWidget(uiBinder.createAndBindUi(this));
+		sayHelloButton.getElement().setClassName("send centerbtn");
+		sendMessageButton.getElement().setClassName("send");
 
-    sendMessageButton.addClickHandler(new ClickHandler() {
-    public void onClick(ClickEvent event) {
-        String recipient = recipientArea.getValue();
-        String message = messageArea.getValue();
-        setStatus("Connecting...", false);
-        sendMessageButton.setEnabled(false);
+		final EventBus eventBus = new SimpleEventBus();
+		final MyRequestFactory requestFactory = GWT
+				.create(MyRequestFactory.class);
+		requestFactory.initialize(eventBus);
 
-        // Send a message using RequestFactory
-        MessageRequest request = requestFactory.messageRequest();
-        MessageProxy messageProxy = request.create(MessageProxy.class);
-        messageProxy.setRecipient(recipient);
-        messageProxy.setMessage(message);
-        Request<String> sendRequest = request.send().using(messageProxy);
-        sendRequest.fire(new Receiver<String>() {
-          @Override
-          public void onFailure(ServerFailure error) {
-            sendMessageButton.setEnabled(true);
-            setStatus(error.getMessage(), true);
-          }
+		sendMessageButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				String recipient = recipientArea.getValue();
+				String message = messageArea.getValue();
+				setStatus("Connecting...", false);
+				sendMessageButton.setEnabled(false);
 
-          @Override
-          public void onSuccess(String response) {
-            sendMessageButton.setEnabled(true);
-            setStatus(response, response.startsWith("Failure:"));
-          }
-        });
-      }
-    });
+				// Send a message using RequestFactory
+				MessageRequest request = requestFactory.messageRequest();
+				MessageProxy messageProxy = request.create(MessageProxy.class);
+				messageProxy.setRecipient(recipient);
+				messageProxy.setMessage(message);
+				Request<String> sendRequest = request.send()
+						.using(messageProxy);
+				sendRequest.fire(new Receiver<String>() {
+					@Override
+					public void onFailure(ServerFailure error) {
+						sendMessageButton.setEnabled(true);
+						setStatus(error.getMessage(), true);
+					}
 
-    sayHelloButton.addClickHandler(new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        sayHelloButton.setEnabled(false);
-        HelloWorldRequest helloWorldRequest = requestFactory.helloWorldRequest();
-        helloWorldRequest.getMessage().fire(new Receiver<String>() {
-          @Override
-          public void onFailure(ServerFailure error) {
-            sayHelloButton.setEnabled(true);
-            setStatus(error.getMessage(), true);
-          }
+					@Override
+					public void onSuccess(String response) {
+						sendMessageButton.setEnabled(true);
+						setStatus(response, response.startsWith("Failure:"));
+					}
+				});
+			}
+		});
 
-          @Override
-          public void onSuccess(String response) {
-            sayHelloButton.setEnabled(true);
-            setStatus(response, response.startsWith("Failure:"));
-          }
-        });
-      }
-    });
-    
-    //GWT.create(DeviceInfo.class);
-    
-    registrations.setInnerText("wortelkes");
-    
-    //DeviceInfo.getDeviceInfoForUser("versluyssander@gmail.com");
-    
-    //List<DeviceInfo> devices = DeviceInfo.getAllDevices();
-    /*if (devices.size() > 0) {
-	    StringBuffer buffer = new StringBuffer();
-	    for (DeviceInfo info : devices)
-	    	buffer.append(info.toString()).append("<br/>");
-	    registrations.setInnerText(buffer.toString());   
-    }*/
+		sayHelloButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				sayHelloButton.setEnabled(false);
+				HelloWorldRequest helloWorldRequest = requestFactory
+						.helloWorldRequest();
+				helloWorldRequest.getMessage().fire(new Receiver<String>() {
+					@Override
+					public void onFailure(ServerFailure error) {
+						sayHelloButton.setEnabled(true);
+						setStatus(error.getMessage(), true);
+					}
 
-    
-  }
+					@Override
+					public void onSuccess(String response) {
+						sayHelloButton.setEnabled(true);
+						setStatus(response, response.startsWith("Failure:"));
+					}
+				});
+			}
+		});
+
+		// GWT.create(DeviceInfo.class);
+
+
+		// DeviceInfo.getDeviceInfoForUser("versluyssander@gmail.com");
+
+		// List<DeviceInfo> devices = DeviceInfo.getAllDevices();
+		/*
+		 * if (devices.size() > 0) { StringBuffer buffer = new StringBuffer();
+		 * for (DeviceInfo info : devices)
+		 * buffer.append(info.toString()).append("<br/>");
+		 * registrations.setInnerText(buffer.toString()); }
+		 */
+
+		getRegistrations();
+		
+	}
+
+	private DeviceServiceAsync deviceSvc = GWT.create(DeviceService.class);
+
+	private void getRegistrations() {
+
+		if (deviceSvc == null)
+			deviceSvc = GWT.create(DeviceService.class);
+
+		AsyncCallback<List<String>> callback = new AsyncCallback<List<String>>() {
+			public void onFailure(Throwable caught) {
+				// TODO: Do something with errors.
+			}
+
+			public void onSuccess(List<String> devices) {
+				StringBuffer buffer = new StringBuffer();
+				for (String device : devices)
+					buffer.append(device).append("<br/>");
+				registrations.setInnerText(buffer.toString());
+			}
+		};
+
+		deviceSvc.getDevices(callback);
+	}
 }

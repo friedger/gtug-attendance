@@ -3,17 +3,21 @@ package be.niob.gtug.attendance.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import be.niob.gtug.attendance.client.DeviceService;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class DeviceServiceImpl extends RemoteServiceServlet implements DeviceService {
 
 	@Override
 	public List<String> getDevices() {
-		List<String> devices = new ArrayList<String>();
-		devices.add("pipo");
-		devices.add("clown");
-		return devices;
-		//return DeviceInfo.getAllDevices();
+		
+		List<String> deviceStrings = new ArrayList<String>();
+		List<DeviceInfo> devices = DeviceInfo.getAllDevices();
+		for (DeviceInfo device: devices) 
+			deviceStrings.add(device.toString());
+		
+		return deviceStrings;
 	}
 	
 }

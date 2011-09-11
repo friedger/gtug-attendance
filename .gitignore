@@ -15,4 +15,4 @@ Attendance-AppEngine/war/attendance/WEB-INF/appengine-generated
 Attendance-AppEngine/.apt_generated
 Attendance-AppEngine/.factory_path
 Attendance-AppEngine/.gwt
-*.cache.html
+Attendance-AppEngine/war/attendance/*.cache.*
