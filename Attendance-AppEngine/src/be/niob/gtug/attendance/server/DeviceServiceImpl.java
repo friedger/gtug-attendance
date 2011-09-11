@@ -15,7 +15,7 @@ public class DeviceServiceImpl extends RemoteServiceServlet implements DeviceSer
 		List<String> deviceStrings = new ArrayList<String>();
 		List<DeviceInfo> devices = DeviceInfo.getAllDevices();
 		for (DeviceInfo device: devices) 
-			deviceStrings.add(device.toString());
+			deviceStrings.add(device.getKey().toString());
 		
 		return deviceStrings;
 	}

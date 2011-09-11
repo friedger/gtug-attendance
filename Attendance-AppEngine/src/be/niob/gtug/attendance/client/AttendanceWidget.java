@@ -193,7 +193,7 @@ public class AttendanceWidget extends Composite {
 			public void onSuccess(List<String> devices) {
 				StringBuffer buffer = new StringBuffer();
 				for (String device : devices)
-					buffer.append(device).append("<br/>");
+					buffer.append(device).append("\n");
 				registrations.setInnerText(buffer.toString());
 			}
 		};
