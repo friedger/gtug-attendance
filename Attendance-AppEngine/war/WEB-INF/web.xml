@@ -50,6 +50,15 @@
     <servlet-name>deviceServiceImpl</servlet-name>
     <url-pattern>/attendance/devices</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+        <servlet-name>devices</servlet-name>
+        <servlet-class>be.niob.gtug.attendance.server.DeviceServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>devices</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
 
   <!-- Other servlets -->
 
