@@ -31,6 +31,8 @@ public class Setup {
      * The URL of the production service.
      */
     public static final String PROD_URL = "https://" + APP_NAME + ".appspot.com";
+    
+    //public static final String PROD_URL = "http://192.168.1.119:8888";
 
     /**
      * The C2DM sender ID for the server. A C2DM registration with this name
