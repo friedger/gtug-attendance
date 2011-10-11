@@ -1,6 +1,6 @@
 <ui:UiBinder
     xmlns:ui='urn:ui:com.google.gwt.uibinder'
-    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+    xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:c="urn:import:com.google.gwt.canvas.client">
     <g:HTMLPanel>
     <div id="widget">
         <div id="header">
@@ -22,6 +22,13 @@
             </div>
             <g:Button ui:field="sendMessageButton">Send Message</g:Button>
         </div>
+        
+        <c:Canvas>
+        
+        	
+        	
+        </c:Canvas>
+        
     </div>
    </g:HTMLPanel>
 </ui:UiBinder>
