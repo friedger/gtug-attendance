@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Attendance</title>
+    <style type="text/css">
+    </style>
+  </head>
+  <body>
+  
+  	<section>
+		{%if user %}
+        <strong>{{user.nickname}} &lt;{{user.email}}&gt;</strong>
+        {%if is_admin%} | <a href="/_ah/admin">Admin</a>{%endif%}
+        {%if sign_out%} | <a href="{{sign_out}}">Sign out</a>{%endif%}
+        {% else %}
+        {%if sign_in%}<a href="{{sign_in}}">Sign in</a>{%endif%}
+        {%endif%}	
+  	</section>
+  	
+  	<section>
+  		{%block body%}{%endblock%}
+  	</section>
+  	
+  </body>
+</html>

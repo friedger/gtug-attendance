@@ -1,0 +1,15 @@
+{%extends "base.html"%}
+{%block body%}
+<h2>Meeting {{meeting.name}}</h2>
+<h3>{{meeting.date}}</h3>
+<p>{{meeting.description}}</p>
+
+<ul>
+{%for attendee in meeting.attendees%}
+<li>
+	attendee.nickname
+</li>
+{%endfor%}
+</ul>
+
+{%endblock%}

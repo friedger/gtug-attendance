@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/iphone/!svn/ver/8154/TheReference/GPNS/android/trunk/GPNStest/src/be/reference/gpns/test
+END
+Setup.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/iphone/!svn/ver/8136/TheReference/GPNS/android/trunk/GPNStest/src/be/reference/gpns/test/Setup.java
+END
+DeviceRegistrar.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/iphone/!svn/ver/8154/TheReference/GPNS/android/trunk/GPNStest/src/be/reference/gpns/test/DeviceRegistrar.java
+END
+GPNStestActivity.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/iphone/!svn/ver/8136/TheReference/GPNS/android/trunk/GPNStest/src/be/reference/gpns/test/GPNStestActivity.java
+END
+GPNS.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/iphone/!svn/ver/8155/TheReference/GPNS/android/trunk/GPNStest/src/be/reference/gpns/test/GPNS.java
+END
+MessageDisplay.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/iphone/!svn/ver/8136/TheReference/GPNS/android/trunk/GPNStest/src/be/reference/gpns/test/MessageDisplay.java
+END
+C2DMReceiver.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/iphone/!svn/ver/8136/TheReference/GPNS/android/trunk/GPNStest/src/be/reference/gpns/test/C2DMReceiver.java
+END
+AccountsActivity.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/iphone/!svn/ver/8136/TheReference/GPNS/android/trunk/GPNStest/src/be/reference/gpns/test/AccountsActivity.java
+END
+Util.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/iphone/!svn/ver/8136/TheReference/GPNS/android/trunk/GPNStest/src/be/reference/gpns/test/Util.java
+END
