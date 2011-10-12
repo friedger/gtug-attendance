@@ -184,7 +184,34 @@ def unregister(request):
     registration=items[0]
     registration.delete()
     
-  return http.HttpResponse("Successful unregistered")  
+  return http.HttpResponse("Successful unregistered")
+
+def alert(request, meeting_id):
+
+  user = users.get_current_user()
+  if user is None:
+    return http.HttpResponseForbidden('You must be signed in alert meeting attendees')
+
+  meeting = None
+  if meeting_id:
+    meeting = Meeting.get(db.Key.from_path(Meeting.kind(), int(meeting_id)))
+    
+    if meeting is None:
+      return http.HttpResponseNotFound('No meeting exists with that key (%r)' %
+                                       meeting_id)
+	
+    regs = db.GqlQuery("SELECT * FROM Registration WHERE accountName IN :1", meeting.attendees)
+      
+    for reg in regs:
+      sender = C2DM()
+      sender.registrationId = reg.registrationId
+      sender.collapseKey = 1
+      sender.data = {'message' : 'Moehahah!', 'sender' : meeting.name}
+      response = sender.sendMessage()
+      
+    return http.HttpResponse("Alerts send succesfully")
+    
+  return http.HttpResponse("Alerts failed")
   
 def send(request):
   user = users.get_current_user()

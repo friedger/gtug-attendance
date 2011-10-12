@@ -7,9 +7,11 @@
 <ul>
 {%for attendee in meeting.attendees%}
 <li>
-	attendee.nickname
+	{{attendee}}
 </li>
 {%endfor%}
 </ul>
+
+<a href="{%url views.alert meeting.key.id%}">Send alert</a>
 
 {%endblock%}

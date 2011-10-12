@@ -25,4 +25,5 @@ urlpatterns = patterns(
     (r'^register', 'views.register'),
     (r'^unregister', 'views.unregister'),
     (r'^registrations', 'views.registrations'),
+    (r'^alert/(\d+)$', 'views.alert'),
     )
