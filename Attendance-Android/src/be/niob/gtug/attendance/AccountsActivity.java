@@ -16,6 +16,11 @@
 
 package be.niob.gtug.attendance;
 
+import be.niob.gtug.attendance.R;
+import be.niob.gtug.attendance.R.id;
+import be.niob.gtug.attendance.R.layout;
+import be.niob.gtug.attendance.R.string;
+
 import com.google.android.c2dm.C2DMessaging;
 
 import org.apache.http.Header;
@@ -221,7 +226,7 @@ public class AccountsActivity extends Activity {
         editor.remove(Util.DEVICE_REGISTRATION_ID);
         editor.commit();
 
-        // Obtain an auth token and register
+        // Obtain an auth token and register<
         final AccountManager mgr = AccountManager.get(mContext);
         Account[] accts = mgr.getAccountsByType("com.google");
         for (Account acct : accts) {

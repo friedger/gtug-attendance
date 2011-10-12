@@ -17,7 +17,7 @@ from c2dm import ClientLoginTokenFactory
 
 class Meeting(db.Model):
   name = db.StringProperty(required=True)
-  attendees = db.ListProperty(users.User)
+  attendees = db.StringListProperty()
   description = db.TextProperty()
   url = db.URLProperty()
   date = db.DateTimeProperty()
@@ -29,6 +29,14 @@ class MeetingForm(djangoforms.ModelForm):
   class Meta:
     model = Meeting
     exclude = ['attendees', 'creator', 'created', 'modified']
+    
+class Registration(db.Model):
+  accountName=db.StringProperty()
+  registrationId=db.StringProperty()
+  
+class RegistrationForm(djangoforms.ModelForm):
+  class Meta:
+    model = Registration
 
 def respond(request, user, template, params=None):
   """Helper to render a response, passing standard stuff to the response.
@@ -64,7 +72,7 @@ def index(request):
   """Request / -- show all meetings."""
   user = users.get_current_user()
   meetings = db.GqlQuery('SELECT * FROM Meeting ORDER BY created DESC')
-  if (request.META['CONTENT_TYPE'] == 'application/json'):
+  if (request.META.get('CONTENT_TYPE') == 'application/json'):
     return http.HttpResponse(json.encode(meetings), mimetype='application/json')
   else:
     return respond(request, user, 'list', {'meetings': meetings})
@@ -120,16 +128,27 @@ def show(request, meeting_id):
                                        meeting_id)
 
   return respond(request, user, 'show', {'meeting': meeting})
-
-class Registration(db.Model):
-  accountName=db.StringProperty()
-  registrationId=db.StringProperty()
   
-class RegistrationForm(djangoforms.ModelForm):
-  class Meta:
-    model = Registration
+def signup(request):
+
+  meeting_id = request.POST.get('meeting_id')
+  accountName = request.POST.get('accountName')
+  
+  if request.method == 'POST' and meeting_id and accountName:
+    meeting = Meeting.get(db.Key.from_path(Meeting.kind(), int(meeting_id)))
+    if meeting is None:
+      return http.HttpResponseNotFound('No meeting exists with that key (%r)' %
+                                       meeting_id)
     
-def all(request):
+    if not accountName in meeting.attendees:
+      meeting.attendees.append(accountName)
+      meeting.put()
+    
+    return http.HttpResponse('Signup successful')
+  else:
+    return http.HttpResponse('Signup failed')
+    
+def registrations(request):
   user = users.get_current_user()
   regs = db.GqlQuery('SELECT * FROM Registration')
   return respond(request, user, 'regs', {'regs': regs})

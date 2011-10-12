@@ -21,7 +21,8 @@ urlpatterns = patterns(
     (r'^new$', 'views.new'),
     (r'^edit/(\d+)$', 'views.edit'),
     (r'^show/(\d+)$', 'views.show'),
-    (r'^all', 'views.all'),
+    (r'^signup', 'views.signup'),
     (r'^register', 'views.register'),
-    (r'^send', 'views.send'),
+    (r'^unregister', 'views.unregister'),
+    (r'^registrations', 'views.registrations'),
     )

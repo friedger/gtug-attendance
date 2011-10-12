@@ -48,7 +48,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import be.reference.gpns.test.R;
 
 import com.google.android.c2dm.C2DMessaging;
 
@@ -225,38 +224,28 @@ public class AccountsActivity extends Activity {
         for (Account acct : accts) {
             final Account account = acct;
             if (account.name.equals(accountName)) {
-                if (Util.isDebug(mContext)) {
-                    // Use a fake cookie for the dev mode app engine server
-                    // The cookie has the form email:isAdmin:userId
-                    // We set the userId to be the same as the email
-                    String authCookie = "dev_appserver_login=" + accountName + ":false:"
-                            + accountName;
-                    prefs.edit().putString(Util.AUTH_COOKIE, authCookie).commit();
-                    C2DMessaging.register(mContext, Setup.SENDER_ID);
-                } else {
-                    // Get the auth token from the AccountManager and convert
-                    // it into a cookie for the appengine server
-                    final Activity activity = this;
-                    mgr.getAuthToken(account, "ah", null, activity, new AccountManagerCallback<Bundle>() {
-                        public void run(AccountManagerFuture<Bundle> future) {
-                            String authToken = getAuthToken(future);
-                            // Ensure the token is not expired by invalidating it and
-                            // obtaining a new one
-                            mgr.invalidateAuthToken(account.type, authToken);
-                            mgr.getAuthToken(account, "ah", null, activity, new AccountManagerCallback<Bundle>() {
-                                public void run(AccountManagerFuture<Bundle> future) {
-                                    String authToken = getAuthToken(future);
-                                    // Convert the token into a cookie for future use
-                                    String authCookie = getAuthCookie(authToken);
-                                    Editor editor = prefs.edit();
-                                    editor.putString(Util.AUTH_COOKIE, authCookie);
-                                    editor.commit();
-                                    C2DMessaging.register(mContext, Setup.SENDER_ID);
-                                }
-                            }, null);
-                        }
-                    }, null);
-                }
+                // Get the auth token from the AccountManager and convert
+                // it into a cookie for the appengine server
+                final Activity activity = this;
+                mgr.getAuthToken(account, "ah", null, activity, new AccountManagerCallback<Bundle>() {
+                    public void run(AccountManagerFuture<Bundle> future) {
+                        String authToken = getAuthToken(future);
+                        // Ensure the token is not expired by invalidating it and
+                        // obtaining a new one
+                        mgr.invalidateAuthToken(account.type, authToken);
+                        mgr.getAuthToken(account, "ah", null, activity, new AccountManagerCallback<Bundle>() {
+                            public void run(AccountManagerFuture<Bundle> future) {
+                                String authToken = getAuthToken(future);
+                                // Convert the token into a cookie for future use
+                                String authCookie = getAuthCookie(authToken);
+                                Editor editor = prefs.edit();
+                                editor.putString(Util.AUTH_COOKIE, authCookie);
+                                editor.commit();
+                                C2DMessaging.register(mContext, Setup.SENDER_ID);
+                            }
+                        }, null);
+                    }
+                }, null);
                 break;
             }
         }
@@ -285,7 +274,7 @@ public class AccountsActivity extends Activity {
         try {
             // Get SACSID cookie
             httpClient.getParams().setBooleanParameter(ClientPNames.HANDLE_REDIRECTS, false);
-            String uri = Setup.PROD_URL + "/_ah/login?continue=http://localhost/&auth=" + authToken;
+            String uri = Setup.APP_SERVER_URL + "/_ah/login?continue=http://localhost/&auth=" + authToken;
             HttpGet method = new HttpGet(uri);
 
             HttpResponse res = httpClient.execute(method);

@@ -37,10 +37,6 @@ public class DeviceRegistrar {
     public static final int ERROR_STATUS = 3;
 
     private static final String TAG = "DeviceRegistrar";
-    
-    private static final String APP_SERVER_URL = "http://attendance-gtug.appspot.com/";
-    private static final String ROUTE_REGISTER = "register";    
-    private static final String ROUTE_UNREGISTER = "unregister";
 
     public static void registerOrUnregister(final Context context,
             final String deviceRegistrationId, final boolean register) {
@@ -55,7 +51,7 @@ public class DeviceRegistrar {
 				
 				try {
 					HttpClient httpclient = new DefaultHttpClient();
-					HttpPost post = new HttpPost(APP_SERVER_URL + (register ? ROUTE_REGISTER : ROUTE_UNREGISTER));
+					HttpPost post = new HttpPost(Setup.APP_SERVER_URL + (register ? Setup.ROUTE_REGISTER : Setup.ROUTE_UNREGISTER));
 					post.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 					ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>();
 					if (register)

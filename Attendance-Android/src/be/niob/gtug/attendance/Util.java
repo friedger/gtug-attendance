@@ -15,6 +15,9 @@
  */
 package be.niob.gtug.attendance;
 
+import be.niob.gtug.attendance.R;
+import be.niob.gtug.attendance.R.drawable;
+
 import com.google.web.bindery.event.shared.SimpleEventBus;
 import com.google.web.bindery.requestfactory.shared.RequestFactory;
 import com.google.web.bindery.requestfactory.vm.RequestFactorySource;

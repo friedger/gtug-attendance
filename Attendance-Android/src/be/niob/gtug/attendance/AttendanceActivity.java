@@ -18,6 +18,11 @@ package be.niob.gtug.attendance;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
 
+import be.niob.gtug.attendance.R;
+import be.niob.gtug.attendance.R.id;
+import be.niob.gtug.attendance.R.layout;
+import be.niob.gtug.attendance.R.menu;
+import be.niob.gtug.attendance.R.string;
 import be.niob.gtug.attendance.client.MyRequestFactory;
 import be.niob.gtug.attendance.client.MyRequestFactory.HelloWorldRequest;
 
