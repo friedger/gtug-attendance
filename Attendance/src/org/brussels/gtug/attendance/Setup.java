@@ -5,7 +5,7 @@ public class Setup {
     /**
      * The URL of the app engine service.
      */
-    public static final String APP_SERVER_URL = "http://attendance-gtug.appspot.com";
+    public static final String APP_SERVER_URL = "https://attendance-gtug.appspot.com";
     
     public static final String ROUTE_REGISTER = "/register";    
     public static final String ROUTE_UNREGISTER = "/unregister";

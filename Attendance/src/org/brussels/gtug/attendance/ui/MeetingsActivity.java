@@ -1,9 +1,6 @@
 package org.brussels.gtug.attendance.ui;
 
-import java.util.Map;
-
 import android.app.ListActivity;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 public class MeetingsActivity extends ListActivity {
