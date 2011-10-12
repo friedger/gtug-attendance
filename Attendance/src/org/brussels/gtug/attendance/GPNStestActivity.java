@@ -16,6 +16,8 @@
 package org.brussels.gtug.attendance;
 
 
+import org.brussels.gtug.attendance.ui.MeetingsActivity;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -96,6 +98,8 @@ public class GPNStestActivity extends Activity {
         String connectionStatus = prefs.getString(Util.CONNECTION_STATUS, Util.DISCONNECTED);
         if (Util.DISCONNECTED.equals(connectionStatus)) {
             startActivity(new Intent(this, AccountsActivity.class));
+        } else {
+        	startActivity(new Intent(this, MeetingsActivity.class));
         }
         setScreenContent(R.layout.hello_world);
     }

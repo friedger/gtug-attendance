@@ -72,7 +72,8 @@ def index(request):
   """Request / -- show all meetings."""
   user = users.get_current_user()
   meetings = db.GqlQuery('SELECT * FROM Meeting ORDER BY created DESC')
-  if (request.META.get('CONTENT_TYPE') == 'application/json'):
+  if (request.GET.get('format') == 'json'):
+
     return http.HttpResponse(json.encode(meetings), mimetype='application/json')
   else:
     return respond(request, user, 'list', {'meetings': meetings})

@@ -2,6 +2,8 @@ package org.brussels.gtug.attendance;
 
 public class Setup {
 
+	public static final String TAG = "GTUG-Attendance";
+	
     /**
      * The URL of the app engine service.
      */
@@ -16,4 +18,9 @@ public class Setup {
      * must exist for the app to function correctly.
      */
     public static final String SENDER_ID = "versluyssander.c2dm@gmail.com";
+    
+    public static final String ACTION_MEETINGS = "actionMeetings";
+    
+    public static final String ACTION_LOADED = "actionLoaded";
+    
 }

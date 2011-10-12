@@ -19,20 +19,21 @@ class GqlEncoder(simplejson.JSONEncoder):
   def default(self, obj): 
 
     """Tests the input object, obj, to encode as JSON.""" 
-
+	
     if hasattr(obj, '__json__'): 
       return getattr(obj, '__json__')() 
-
+      
     if isinstance(obj, db.GqlQuery): 
       return list(obj) 
 
     elif isinstance(obj, db.Model): 
       properties = obj.properties().items() 
       output = {} 
+      output['id'] = obj.key().id()
       for field, value in properties: 
         output[field] = getattr(obj, field) 
-      return output 
-
+      return output
+      
     elif isinstance(obj, datetime.datetime): 
       output = {} 
       fields = ['day', 'hour', 'microsecond', 'minute', 'month', 'second', 'year'] 
