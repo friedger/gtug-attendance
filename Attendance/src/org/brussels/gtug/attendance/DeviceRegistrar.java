@@ -51,7 +51,7 @@ public class DeviceRegistrar {
 				
 				try {
 					HttpClient httpclient = new DefaultHttpClient();
-					HttpPost post = new HttpPost(Setup.APP_SERVER_URL + (register ? Setup.ROUTE_REGISTER : Setup.ROUTE_UNREGISTER));
+					HttpPost post = new HttpPost(Constants.APP_SERVER_URL + (register ? Constants.ROUTE_REGISTER : Constants.ROUTE_UNREGISTER));
 					post.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 					ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>();
 					if (register)

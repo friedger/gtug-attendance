@@ -32,7 +32,7 @@ import com.google.android.c2dm.C2DMBaseReceiver;
 public class C2DMReceiver extends C2DMBaseReceiver {
 
     public C2DMReceiver() {
-        super(Setup.SENDER_ID);
+        super(Constants.SENDER_ID);
     }
 
     /**

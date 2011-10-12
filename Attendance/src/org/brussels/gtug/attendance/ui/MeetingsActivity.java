@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.brussels.gtug.attendance.Setup;
+import org.brussels.gtug.attendance.Constants;
 import org.brussels.gtug.attendance.util.Http;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,7 +35,7 @@ public class MeetingsActivity extends ListActivity implements OnItemClickListene
 			protected Map<Integer, String> doInBackground(Void... params) {
 				
 				Map<Integer, String> meetings = new HashMap<Integer, String>();
-				String response = Http.get(Setup.APP_SERVER_URL + "?format=json");
+				String response = Http.get(Constants.APP_SERVER_URL + "?format=json");
 				try {
 					JSONArray data = new JSONArray(response);
 					for (int i=0; i<data.length(); i++) {

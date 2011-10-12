@@ -16,7 +16,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.brussels.gtug.attendance.Setup;
+import org.brussels.gtug.attendance.Constants;
 
 import android.util.Log;
 
@@ -38,7 +38,7 @@ public class Http {
 		    	responseBuffer.append(readed);
 		    }
 		    String responseString = responseBuffer.toString();
-		    Log.d(Setup.TAG, responseString);
+		    Log.d(Constants.TAG, responseString);
 		    return responseString;
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -52,7 +52,7 @@ public class Http {
 	
 	public static String get(String url) {
 		try {
-			Log.d(Setup.TAG, "Get url: " + url);
+			Log.d(Constants.TAG, "Get url: " + url);
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpGet request = new HttpGet(url);
 			
@@ -61,7 +61,7 @@ public class Http {
 			BasicResponseHandler handler = new BasicResponseHandler();
 			String response;
 			response = httpClient.execute(request, handler);
-			Log.d(Setup.TAG, "Get response: " + response);
+			Log.d(Constants.TAG, "Get response: " + response);
 			return response;
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();

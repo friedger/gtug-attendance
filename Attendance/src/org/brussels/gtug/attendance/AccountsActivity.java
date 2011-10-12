@@ -111,7 +111,7 @@ public class AccountsActivity extends Activity {
             if (regId != null && !"".equals(regId)) {
                 DeviceRegistrar.registerOrUnregister(mContext, regId, true);
             } else {
-                C2DMessaging.register(mContext, Setup.SENDER_ID);
+                C2DMessaging.register(mContext, Constants.SENDER_ID);
             }
         }
     }
@@ -241,7 +241,7 @@ public class AccountsActivity extends Activity {
                                 Editor editor = prefs.edit();
                                 editor.putString(Util.AUTH_COOKIE, authCookie);
                                 editor.commit();
-                                C2DMessaging.register(mContext, Setup.SENDER_ID);
+                                C2DMessaging.register(mContext, Constants.SENDER_ID);
                             }
                         }, null);
                     }
@@ -274,7 +274,7 @@ public class AccountsActivity extends Activity {
         try {
             // Get SACSID cookie
             httpClient.getParams().setBooleanParameter(ClientPNames.HANDLE_REDIRECTS, false);
-            String uri = Setup.APP_SERVER_URL + "/_ah/login?continue=http://localhost/&auth=" + authToken;
+            String uri = Constants.APP_SERVER_URL + "/_ah/login?continue=http://localhost/&auth=" + authToken;
             HttpGet method = new HttpGet(uri);
 
             HttpResponse res = httpClient.execute(method);
