@@ -2,6 +2,21 @@
 <html>
   <head>
     <title>Attendance</title>
+    
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    
+    <script type="text/javascript">
+    	$(function() {
+        	$('a.hijax').click(function(e) {
+	    		e.preventDefault();
+	    		var url = $(this).attr('href');
+	    		$.get(url, function(data) {
+	    			console.log(data);
+	    		});
+    		});
+    	});
+    </script>
+    
     <style type="text/css">
     </style>
   </head>
