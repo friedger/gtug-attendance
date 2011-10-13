@@ -128,7 +128,7 @@ def show(request, meeting_id):
       return http.HttpResponseNotFound('No meeting exists with that key (%r)' %
                                        meeting_id)
 
-  return respond(request, user, 'show', {'meeting': meeting})
+  return respond(request, user, 'show', {'meeting': meeting, 'attendees':json.encode(meeting.attendees)})
   
 def signup(request):
 

@@ -4,7 +4,11 @@ from google.appengine.api import users
 from google.appengine.ext import db 
 
 #this is a mod on the orinal file for some reason it includes its own simplejson files i have ref django!
-from django.utils import simplejson  
+from django.utils import simplejson 
+
+from django.core.serializers import serialize
+from django.db.models.query import QuerySet
+from django.template import Library
 
 class GqlEncoder(simplejson.JSONEncoder): 
 
@@ -71,3 +75,14 @@ def encode(input):
          type. 
      """ 
   return GqlEncoder().encode(input)
+  
+register = Library()
+
+register = Library()
+
+def jsonify(object):
+    if isinstance(object, QuerySet):
+        return serialize('json', object)
+    return simplejson.dumps(object)
+
+register.filter('jsonify', jsonify) 
