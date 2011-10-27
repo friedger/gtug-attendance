@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+  <bean id="aboutController" class="org.gtugs.web.AboutController"/>
+
+
+  <bean id="signupFormController" class="org.gtugs.web.SignupFormController">
+    <property name="sessionForm" value="false"/>
+    <property name="commandName" value="guest"/>
+    <property name="commandClass" value="org.gtugs.domain.Guest"/>
+    <property name="validator">
+      <bean class="org.gtugs.service.GuestValidator">
+        <property name="mapsService" ref="mapsService"/>
+      </bean>
+    </property>
+    <property name="formView" value="signup"/>
+    <property name="guestManager" ref="guestManager"/>
+    <property name="locationManager" ref="locationManager"/>
+  </bean>
+
+  <bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">            
+    <property name="mappings">
+      <props>
+        <prop key="/">aboutController</prop>
+        <prop key="/about">aboutController</prop>
+        <prop key="/about.jsp">aboutController</prop>
+        <prop key="/admin">adminController</prop>
+        <prop key="/admin.jsp">adminController</prop>
+        <prop key="/admin/addChapter">addChapterFormController</prop>
+        <prop key="/admin/addChapter.jsp">addChapterFormController</prop>
+        <prop key="/admin/addCountry">addCountryFormController</prop>
+        <prop key="/admin/addCountry.jsp">addCountryFormController</prop>
+        <prop key="/admin/addEvent.jsp">addEventFormController</prop>
+        <prop key="/admin/importChaptersEvents">importChaptersEvents</prop>
+        <prop key="/admin/report.jsp">reportController</prop>
+        <prop key="/admin/updateChapter">updateChapterFormController</prop>
+        <prop key="/admin/updateChapter.jsp">updateChapterFormController</prop>
+        <prop key="/admin/updateEvent.jsp">updateEventFormController</prop>
+        <prop key="/chapter">chapterController</prop>
+        <prop key="/chapter.jsp">chapterController</prop>
+        <prop key="/chapters">chaptersController</prop>
+        <prop key="/events">eventsController</prop>
+        <prop key="/directory">directoryController</prop>
+        <prop key="/directory.jsp">directoryController</prop>
+        <prop key="/guests">guestsController</prop>
+        <prop key="/offline/generateStats">generateStatsController</prop>
+        <prop key="/offline/getChapterStats">getChapterStatsController</prop>
+        <prop key="/offline/getEventStats">getEventStatsController</prop>
+        <prop key="/pulse.jsp">pulseController</prop>
+        <prop key="/signUp.jsp">signupFormController</prop>
+      </props>
+    </property>
+  </bean>
+
+  <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"/>
+
+  <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    <property name="defaultEncoding" value="UTF-8"/>
+    <property name="basename" value="classpath:messages"/>
+  </bean>
+
+  <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
+    <property name="prefix" value="/WEB-INF/jsp/"></property>
+    <property name="suffix" value=".jsp"></property>
+  </bean>
+
+</beans>
