@@ -16,14 +16,13 @@
 
 package org.brusselsgtug.attendance.service;
 
-import org.gtugs.domain.Guest;
-import org.gtugs.repository.GuestDao;
+import java.util.Date;
+import java.util.List;
+
+import org.brusselsgtug.attendance.domain.Guest;
 
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * @author jasonacooper@google.com (Jason Cooper)

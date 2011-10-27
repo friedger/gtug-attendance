@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.brusselsgtug.attendance.domain.Guest;
 import org.brusselsgtug.attendance.service.GuestManager;
+import org.brusselsgtug.attendance.service.SimpleLocationManager;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;

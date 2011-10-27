@@ -15,6 +15,10 @@ import c2dm
 from c2dm import C2DM
 from c2dm import ClientLoginTokenFactory
 
+class EventRegistration(db.Model):
+  event_id = db.IntegerProperty(required=True)
+  accountName=db.StringProperty(required=True)
+
 class Meeting(db.Model):
   name = db.StringProperty(required=True)
   attendees = db.StringListProperty()

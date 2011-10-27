@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.gson.Gson;
-
 public class DeviceServlet extends HttpServlet {
 	
 	private static final Logger log = Logger.getLogger(DeviceServlet.class.getName());
@@ -23,8 +21,8 @@ public class DeviceServlet extends HttpServlet {
 		resp.setContentType("application/json");
 
 		if (req.equals(ROOT + "/all")) {
-			Gson gson = new Gson();
-			gson.toJson(DeviceInfo.getAllDevices());
+			/*Gson gson = new Gson();
+			gson.toJson(DeviceInfo.getAllDevices());*/
 		}
 	}
 }
