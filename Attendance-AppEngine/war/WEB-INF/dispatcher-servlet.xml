@@ -7,7 +7,7 @@
 
   <bean id="aboutController" class="org.gtugs.web.AboutController"/>
 
-
+<!-- 
   <bean id="signupFormController" class="org.gtugs.web.SignupFormController">
     <property name="sessionForm" value="false"/>
     <property name="commandName" value="guest"/>
@@ -20,7 +20,7 @@
     <property name="formView" value="signup"/>
     <property name="guestManager" ref="guestManager"/>
     <property name="locationManager" ref="locationManager"/>
-  </bean>
+  </bean> -->
 
   <bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">            
     <property name="mappings">
