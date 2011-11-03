@@ -22,3 +22,5 @@ Attendance-AppEngine/.apt_generated
 Attendance-AppEngine/.factory_path
 Attendance-AppEngine/.gwt
 Attendance-AppEngine/war/attendance/*.cache.*
+
+Attendance-Web/war/WEB-INF/classes/*

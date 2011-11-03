@@ -1,4 +1,4 @@
-package org.brussels.gtug.attendance.model;
+package org.brussels.gtug.attendance.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,6 +28,7 @@ import com.google.appengine.api.datastore.Key;
  */
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class Device {
+	
 	private static final Logger log = Logger.getLogger(Device.class
 			.getName());
 
