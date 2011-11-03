@@ -2,6 +2,8 @@ package org.brussels.gtug.attendance.web;
 
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.brussels.gtug.attendance.domain.Device;
 import org.brussels.gtug.attendance.service.RegistrationManager;
 import org.brussels.gtug.attendance.service.security.UserManager;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.ServletContextAware;
 
 import com.google.appengine.repackaged.org.json.JSONArray;
 import com.google.appengine.repackaged.org.json.JSONException;
@@ -20,14 +23,21 @@ import com.google.appengine.repackaged.org.json.JSONObject;
 
 @Controller
 @RequestMapping("/device/*")
-public class DeviceController {
+public class DeviceController implements ServletContextAware {
 	
+	private ServletContext servletContext;
 	private RegistrationManager registrationManager;
 	private UserManager userManager;
 	
 	@ResponseStatus(value = HttpStatus.FORBIDDEN, reason="You'll have to login first")
 	public class NoAccessException extends RuntimeException {
 	    
+	}
+	
+	@Autowired
+	@Override
+	public void setServletContext(ServletContext servletContext) {
+		this.servletContext = servletContext;
 	}
 	
 	@Autowired
@@ -78,4 +88,14 @@ public class DeviceController {
 			throw new NoAccessException();
 		}
 	}
+	
+	@RequestMapping(value = "/ping", method = RequestMethod.GET)
+	@ResponseBody
+	public void ping() {
+		if(userManager.isUserAdmin()) {
+			registrationManager.ping(servletContext);
+		}
+	}
+
+	
 }

@@ -11,13 +11,18 @@ import javax.jdo.Extent;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+import javax.servlet.ServletContext;
 
 import org.brussels.gtug.attendance.domain.Device;
 import org.springframework.stereotype.Service;
 
+import com.google.android.c2dm.server.C2DMessaging;
 import com.google.android.c2dm.server.PMF;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
 @Service
 public class SimpleRegistrationManager implements RegistrationManager {
@@ -28,10 +33,8 @@ public class SimpleRegistrationManager implements RegistrationManager {
 	private static final int MAX_DEVICES = 5;
 
 	@Override
-	public void register(String deviceRegistrationId, 
-						 String deviceType,
-						 String deviceId, 
-						 String accountName) {
+	public void register(String deviceRegistrationId, String deviceType,
+			String deviceId, String accountName) {
 
 		log.info("in register: accountName = " + accountName);
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -161,6 +164,89 @@ public class SimpleRegistrationManager implements RegistrationManager {
 		} finally {
 			pm.close();
 		}
+	}
+
+	@Override
+	public void ping(ServletContext servletContext) {
+		String message = "ping";
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		try {
+			UserService userService = UserServiceFactory.getUserService();
+			User user = userService.getCurrentUser();
+			String sender = "nobody";
+			if (user != null) {
+				sender = user.getEmail();
+			}
+			log.info("sendMessage: sender = " + sender);
+
+			// ok = we sent to at least one device.
+			boolean ok = false;
+
+			// Send push message to phone
+			C2DMessaging push = C2DMessaging.get(servletContext);
+			boolean res = false;
+
+			String collapseKey = "" + message.hashCode();
+
+			// delete will fail if the pm is different than the one used to
+			// load the object - we must close the object when we're done
+
+			List<Device> devices = null;
+			devices = getDevices();
+			log.info("sendMessage: got " + devices.size() + " registrations");
+
+			// Deal with upgrades and multi-device:
+			// If user has one device with an old version and few new ones -
+			// the old registration will be deleted.
+			if (devices.size() > 1) {
+				// Make sure there is no 'bare' registration
+				// Keys are sorted - check the first
+				Device first = devices.get(0);
+				Key oldKey = first.getKey();
+				if (oldKey.toString().indexOf("#") < 0) {
+					// multiple devices, first is old-style.
+					devices.remove(0); // don't send to it
+					pm.deletePersistent(first);
+				}
+			}
+
+			int numSendAttempts = 0;
+			for (Device device : devices) {
+				if (!"ac2dm".equals(device.getType())) {
+					continue; // user-specified device type
+				}
+
+				res = doSendViaC2dm(message, sender, push, collapseKey, device);
+				numSendAttempts++;
+
+				if (res) {
+					ok = true;
+				}
+			}
+
+			if (ok) {
+				// return "Success: Message sent";
+			} else if (numSendAttempts == 0) {
+				// return "Failure: User " + recipient + " not registered";
+			} else {
+				// return "Failure: Unable to send message";
+			}
+		} catch (Exception e) {
+			// return "Failure: Got exception " + e;
+		} finally {
+			pm.close();
+		}
+	}
+
+	private static boolean doSendViaC2dm(String message, String sender,
+			C2DMessaging push, String collapseKey, Device device) {
+		// Trim message if needed.
+		if (message.length() > 1000) {
+			message = message.substring(0, 1000) + "[...]";
+		}
+
+		return push.sendNoRetry(device.getDeviceRegistrationID(),
+				collapseKey, "sender", sender, "message", message);
 	}
 
 }
