@@ -1,5 +1,6 @@
 package org.brussels.gtug.attendance.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -27,7 +28,7 @@ import com.google.appengine.api.datastore.Key;
  * registrations lists different phones registered to that account.
  */
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
-public class Device {
+public class Device implements Serializable {
 	
 	private static final Logger log = Logger.getLogger(Device.class
 			.getName());
