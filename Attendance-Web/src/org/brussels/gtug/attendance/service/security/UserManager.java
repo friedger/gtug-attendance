@@ -2,7 +2,7 @@ package org.brussels.gtug.attendance.service.security;
 
 import org.brussels.gtug.attendance.domain.User;
 
-public interface UserService {
+public interface UserManager {
 
 	public boolean isUserLoggedIn();
 

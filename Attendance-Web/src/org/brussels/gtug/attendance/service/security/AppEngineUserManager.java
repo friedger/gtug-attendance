@@ -1,11 +1,13 @@
 package org.brussels.gtug.attendance.service.security;
 
 import org.brussels.gtug.attendance.domain.User;
+import org.springframework.stereotype.Service;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
-public class AppEngineUserService {
+@Service
+public class AppEngineUserManager implements UserManager {
 
 	private String afterLoginEndpoint;
 	private String afterLogoutEndpoint;
@@ -68,15 +70,14 @@ public class AppEngineUserService {
 		this.afterLogoutEndpoint = afterLogoutEndpoint;
 	}
 
-	private String createLoginUrl(String destinationUrl) {
+	public String createLoginUrl(String destinationUrl) {
 		UserService userService = UserServiceFactory.getUserService();
 
 		return userService.createLoginURL(destinationUrl);
 	}
 
-	private String createLogoutUrl(String destinationUrl) {
+	public String createLogoutUrl(String destinationUrl) {
 		UserService userService = UserServiceFactory.getUserService();
-
 		return userService.createLogoutURL(destinationUrl);
 	}
 }

@@ -4,5 +4,5 @@ public interface AccessManager {
 
 	public boolean hasAccess();
 
-	public void setUsersService(UserService us);
+	public void setUsersService(UserManager us);
 }
