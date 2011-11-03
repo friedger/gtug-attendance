@@ -85,7 +85,10 @@ public class DeviceController implements ServletContextAware {
 			}
 			return devicesJson.toString();
 		} else {
-			throw new NoAccessException();
+			
+			
+			//throw new NoAccessException();
+			return userManager.createLoginUrl("/");
 		}
 	}
 	
