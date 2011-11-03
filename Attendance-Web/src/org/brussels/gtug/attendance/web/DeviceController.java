@@ -25,7 +25,7 @@ public class DeviceController {
 	private RegistrationManager registrationManager;
 	private UserManager userManager;
 	
-	@ResponseStatus(value = HttpStatus.FORBIDDEN)
+	@ResponseStatus(value = HttpStatus.FORBIDDEN, reason="You'll have to login first")
 	public class NoAccessException extends RuntimeException {
 	    
 	}
