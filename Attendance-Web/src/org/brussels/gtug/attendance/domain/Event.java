@@ -135,6 +135,9 @@ public class Event implements Serializable {
 
 	@Persistent
 	private Long chapterId;
+	
+	@Persistent
+	private List<String> attendees;
 
 	public Long getId() {
 		if (key != null)
@@ -405,5 +408,13 @@ public class Event implements Serializable {
 
 	public void setChapterId(Long chapterId) {
 		this.chapterId = chapterId;
+	}
+
+	public List<String> getAttendees() {
+		return attendees;
+	}
+
+	public void setAttendees(List<String> attendees) {
+		this.attendees = attendees;
 	}
 }
