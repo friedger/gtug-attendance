@@ -20,7 +20,7 @@ public class EventController {
 	
 	private static final Logger log = Logger.getLogger(SimpleRegistrationManager.class.getName());
 	
-	private static String EVENTS_URL = "http://www.gtugs.org/events?id=5002";
+	private static String EVENTS_URL = "http://www.gtugs.org/events?chapter=5002&all=true";
 	
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
