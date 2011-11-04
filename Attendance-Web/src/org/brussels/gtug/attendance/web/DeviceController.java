@@ -73,7 +73,7 @@ public class DeviceController implements ServletContextAware {
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	@ResponseBody
 	public String all() {
-		if(userManager.isUserAdmin()) {
+		if(userManager.isUserLoggedIn()) {
 			JSONArray devicesJson = new JSONArray();
 			List<Device> devices = registrationManager.getDevices();
 			for (Device device : devices) {
@@ -95,7 +95,7 @@ public class DeviceController implements ServletContextAware {
 	@RequestMapping(value = "/ping", method = RequestMethod.GET)
 	public ModelAndView ping() {
 		ModelAndView model = new ModelAndView();
-		if(userManager.isUserAdmin()) {
+		if(userManager.isUserLoggedIn()) {
 			registrationManager.ping(servletContext);
 			model.setViewName("ping");
 		} else {
@@ -105,5 +105,4 @@ public class DeviceController implements ServletContextAware {
 		return model;
 	}
 
-	
 }
