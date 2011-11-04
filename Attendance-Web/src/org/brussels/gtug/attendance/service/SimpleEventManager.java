@@ -124,8 +124,13 @@ public class SimpleEventManager implements EventManager {
 			if (!event.getAttendees().contains(accountName)) {
 				event.getAttendees().add(accountName);
 				PersistenceManager pm = PMF.get().getPersistenceManager();
-				pm.makePersistent(event);
-				pm.close();
+				try {
+					pm.makePersistent(event);
+				} catch (Exception e) {
+					log.warning(e.getMessage());
+				} finally {
+					pm.close();
+				}
 			}
 		}
 	}
