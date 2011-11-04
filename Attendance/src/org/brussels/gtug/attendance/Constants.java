@@ -2,6 +2,8 @@ package org.brussels.gtug.attendance;
 
 public class Constants {
 
+	// http://www.colorcombos.com/color-scheme-212.html
+	
 	public static final String TAG = "GTUG-Attendance";
 	
     /**

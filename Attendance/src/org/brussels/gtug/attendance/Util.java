@@ -99,11 +99,11 @@ public class Util {
      * Display a notification containing the given string.
      */
     public static void generateNotification(Context context, String message) {
-        int icon = R.drawable.status_icon;
+        int icon = R.drawable.ic_stat_example;
         long when = System.currentTimeMillis();
 
         Notification notification = new Notification(icon, message, when);
-        notification.setLatestEventInfo(context, "C2DM Example", message,
+        notification.setLatestEventInfo(context, "Attendance", message,
                 PendingIntent.getActivity(context, 0, null, PendingIntent.FLAG_CANCEL_CURRENT));
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
