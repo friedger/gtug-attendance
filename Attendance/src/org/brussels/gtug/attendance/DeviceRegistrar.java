@@ -123,59 +123,6 @@ public class DeviceRegistrar {
         	
 		}.execute();
         
-        
-        // TODO: contact application server using http requests
-        
-        /*RegistrationInfoRequest request = getRequest(context);
-        RegistrationInfoProxy proxy = request.create(RegistrationInfoProxy.class);
-        proxy.setDeviceRegistrationId(deviceRegistrationId);
-
-        String deviceId = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
-        proxy.setDeviceId(deviceId);
-
-        Request<Void> req;
-        if (register) {
-            req = request.register().using(proxy);
-        } else {
-            req = request.unregister().using(proxy);
-        }
-
-        req.fire(new Receiver<Void>() {
-            private void clearPreferences(SharedPreferences.Editor editor) {
-                editor.remove(Util.ACCOUNT_NAME);
-                editor.remove(Util.AUTH_COOKIE);
-                editor.remove(Util.DEVICE_REGISTRATION_ID);
-            }
-
-            @Override
-            public void onFailure(ServerFailure failure) {
-                Log.w(TAG, "Failure, got :" + failure.getMessage());
-                // Clean up application state
-                SharedPreferences.Editor editor = settings.edit();
-                clearPreferences(editor);
-                editor.commit();
-
-                updateUIIntent.putExtra(ACCOUNT_NAME_EXTRA, accountName);
-                updateUIIntent.putExtra(STATUS_EXTRA, ERROR_STATUS);
-                context.sendBroadcast(updateUIIntent);
-            }
-
-            @Override
-            public void onSuccess(Void response) {
-                SharedPreferences settings = Util.getSharedPreferences(context);
-                SharedPreferences.Editor editor = settings.edit();
-                if (register) {
-                    editor.putString(Util.DEVICE_REGISTRATION_ID, deviceRegistrationId);
-                } else {
-                    clearPreferences(editor);
-                }
-                editor.commit();
-                updateUIIntent.putExtra(ACCOUNT_NAME_EXTRA, accountName);
-                updateUIIntent.putExtra(STATUS_EXTRA, register ? REGISTERED_STATUS
-                        : UNREGISTERED_STATUS);
-                context.sendBroadcast(updateUIIntent);
-            }
-        });*/
     }
 
 }
