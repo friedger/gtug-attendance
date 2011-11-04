@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.provider.Settings.Secure;
 import android.util.Log;
 
 /**
@@ -42,6 +43,7 @@ public class DeviceRegistrar {
             final String deviceRegistrationId, final boolean register) {
         final SharedPreferences settings = Util.getSharedPreferences(context);
         final String accountName = settings.getString(Util.ACCOUNT_NAME, "Unknown");
+        final String deviceId = Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
         final Intent updateUIIntent = new Intent(Util.UPDATE_UI_INTENT);
         
         new AsyncTask<Void, Void, Integer>() {
@@ -55,8 +57,9 @@ public class DeviceRegistrar {
 					post.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 					ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>();
 					if (register)
-						postParams.add(new BasicNameValuePair("accountName", accountName));
-					postParams.add(new BasicNameValuePair("registrationId", deviceRegistrationId));
+						postParams.add(new BasicNameValuePair("deviceId", deviceId));
+					postParams.add(new BasicNameValuePair("accountName", accountName));
+					postParams.add(new BasicNameValuePair("deviceRegistrationId", deviceRegistrationId));
 					post.setEntity(new UrlEncodedFormEntity(postParams, "UTF-8"));
 					HttpResponse response = httpclient.execute(post);
 					StringBuffer responseBuffer = new StringBuffer();
