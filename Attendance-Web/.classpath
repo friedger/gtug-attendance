@@ -14,5 +14,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/org.springframework.aop-3.0.6.RELEASE.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/org.springframework.asm-3.0.6.RELEASE.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/c2dm-server.jar" sourcepath="/Users/sversluys/Projects/GTUG-Attendance/Attendance-Web/war/WEB-INF/lib/c2dm-server-src.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gson-1.7.1.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
