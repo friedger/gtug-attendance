@@ -1,6 +1,8 @@
 package org.brussels.gtug.attendance.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.ServletContextAware;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.appengine.repackaged.org.json.JSONArray;
 import com.google.appengine.repackaged.org.json.JSONException;
@@ -85,19 +88,21 @@ public class DeviceController implements ServletContextAware {
 			}
 			return devicesJson.toString();
 		} else {
-			
-			
-			//throw new NoAccessException();
-			return userManager.createLoginUrl("/");
+			throw new NoAccessException();
 		}
 	}
 	
 	@RequestMapping(value = "/ping", method = RequestMethod.GET)
-	@ResponseBody
-	public void ping() {
+	public ModelAndView ping() {
+		ModelAndView model = new ModelAndView();
 		if(userManager.isUserAdmin()) {
 			registrationManager.ping(servletContext);
+			model.setViewName("ping");
+		} else {
+			model.setViewName("login");
+			model.addObject("loginUrl", userManager.createLoginUrl("/"));
 		}
+		return model;
 	}
 
 	
