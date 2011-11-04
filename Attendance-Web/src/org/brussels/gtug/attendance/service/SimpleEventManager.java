@@ -14,12 +14,14 @@ import java.util.logging.Logger;
 
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
+import javax.jdo.Query;
 
 import org.brussels.gtug.attendance.domain.Event;
 import org.brussels.gtug.attendance.util.DateTypeAdapter;
 import org.springframework.stereotype.Service;
 
 import com.google.android.c2dm.server.PMF;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.repackaged.com.google.common.base.StringUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -38,17 +40,17 @@ public class SimpleEventManager implements EventManager {
 		String json = getEventsJson();
 		json = json.substring(10, json.length() - 1);
 		if (!StringUtil.isEmptyOrWhitespace(json)) {
-			
+
 			Gson gson = new GsonBuilder()
-		    	.registerTypeAdapter(Date.class, new DateTypeAdapter())
-		    	.create();
-			
-			Type collectionType = new TypeToken<Collection<Event>>() {
-			}.getType();
+				.registerTypeAdapter(Date.class, new DateTypeAdapter())
+				.create();
+
+			Type collectionType = new TypeToken<Collection<Event>>() {}.getType();
 			List<Event> events = gson.fromJson(json, collectionType);
 
 			PersistenceManager pm = PMF.get().getPersistenceManager();
 			for (Event event : events) {
+				event.setKey(KeyFactory.createKey(Event.class.getSimpleName(), event.getId()));
 				try {
 					pm.makePersistent(event);
 				} catch (JDOObjectNotFoundException e) {
@@ -81,6 +83,37 @@ public class SimpleEventManager implements EventManager {
 			log.log(Level.ALL, e.getMessage());
 		}
 		return buffer.toString();
+	}
+
+	@Override
+	public List<Event> getEvents(boolean futureOnly) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Query query = pm.newQuery(Event.class);
+
+		query.setOrdering("startDate asc");
+
+		if (futureOnly) {
+			query.setFilter("startDate > startDateParam");
+			query.declareParameters("java.util.Date startDateParam");
+		}
+
+		try {
+			List<Event> results = null;
+			if (futureOnly) {
+				results = (List<Event>) query.execute(new Date());
+			} else {
+				results = (List<Event>) query.execute();
+			}
+
+			if (results != null && results.size() > 0) {
+				return (List<Event>) pm.detachCopyAll(results);
+			}
+		} finally {
+			query.closeAll();
+			pm.close();
+		}
+
+		return null;
 	}
 
 }
