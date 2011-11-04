@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.appengine.repackaged.org.json.JSONArray;
@@ -60,6 +61,14 @@ public class EventController {
 	@ResponseBody
 	public void sync() {
 		eventManager.sync();
+	}
+	
+	@RequestMapping(value = "/checkin", method = RequestMethod.POST)
+	@ResponseBody
+	public void checkin(@RequestParam("eventId") Long eventId,
+						@RequestParam("accountName") String accountName) {
+		
+		eventManager.checkin(eventId, accountName);
 	}
 
 }

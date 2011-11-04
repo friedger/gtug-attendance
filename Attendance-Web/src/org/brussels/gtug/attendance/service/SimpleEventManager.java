@@ -41,16 +41,17 @@ public class SimpleEventManager implements EventManager {
 		json = json.substring(10, json.length() - 1);
 		if (!StringUtil.isEmptyOrWhitespace(json)) {
 
-			Gson gson = new GsonBuilder()
-				.registerTypeAdapter(Date.class, new DateTypeAdapter())
-				.create();
+			Gson gson = new GsonBuilder().registerTypeAdapter(Date.class,
+					new DateTypeAdapter()).create();
 
-			Type collectionType = new TypeToken<Collection<Event>>() {}.getType();
+			Type collectionType = new TypeToken<Collection<Event>>() {
+			}.getType();
 			List<Event> events = gson.fromJson(json, collectionType);
 
 			PersistenceManager pm = PMF.get().getPersistenceManager();
 			for (Event event : events) {
-				event.setKey(KeyFactory.createKey(Event.class.getSimpleName(), event.getId()));
+				event.setKey(KeyFactory.createKey(Event.class.getSimpleName(),
+						event.getId()));
 				try {
 					pm.makePersistent(event);
 				} catch (JDOObjectNotFoundException e) {
@@ -114,6 +115,35 @@ public class SimpleEventManager implements EventManager {
 		}
 
 		return null;
+	}
+
+	@Override
+	public void checkin(Long eventId, String accountName) {
+		Event event = getEvent(eventId);
+		if (event != null) {
+			if (!event.getAttendees().contains(accountName)) {
+				event.getAttendees().add(accountName);
+				PersistenceManager pm = PMF.get().getPersistenceManager();
+				pm.makePersistent(event);
+				pm.close();
+			}
+		}
+	}
+
+	@Override
+	public Event getEvent(Long id) {
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Event event = null;
+		try {
+			event = pm.getObjectById(Event.class, id);
+			// Detach event
+			event = pm.detachCopy(event);
+		} catch (JDOObjectNotFoundException e) {
+			return null;
+		} finally {
+			pm.close();
+		}
+		return event;
 	}
 
 }
