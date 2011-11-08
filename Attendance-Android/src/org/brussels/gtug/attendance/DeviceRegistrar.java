@@ -15,6 +15,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.brussels.gtug.attendance.util.Security;
 
 import android.content.Context;
 import android.content.Intent;
@@ -58,7 +59,7 @@ public class DeviceRegistrar {
 					ArrayList<NameValuePair> postParams = new ArrayList<NameValuePair>();
 					if (register)
 						postParams.add(new BasicNameValuePair("deviceId", deviceId));
-					postParams.add(new BasicNameValuePair("accountName", accountName));
+					postParams.add(new BasicNameValuePair("accountName", Security.sha1(accountName)));
 					postParams.add(new BasicNameValuePair("deviceRegistrationId", deviceRegistrationId));
 					post.setEntity(new UrlEncodedFormEntity(postParams, "UTF-8"));
 					HttpResponse response = httpclient.execute(post);

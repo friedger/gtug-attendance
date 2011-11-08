@@ -117,19 +117,6 @@ public class EventActivity extends ListActivity implements OnItemClickListener {
 		
 		startActivity(intent);
 
-		/*final SharedPreferences settings = Util.getSharedPreferences(this);
-		final String accountName = settings.getString(Util.ACCOUNT_NAME, "Unknown");
-		 
-		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("eventId", ""+event.getId()));
-		params.add(new BasicNameValuePair("accountName", accountName));
-		 
-		String response = Http.post(Constants.APP_SERVER_URL + Constants.ROUTE_CHECKIN, params);
-		 
-		Toast.makeText(this, "signup response: " + response, Toast.LENGTH_LONG).show();*/
-		
-		
-		
 	}
 	
 }

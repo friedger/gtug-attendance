@@ -6,6 +6,7 @@ import org.brussels.gtug.attendance.domain.Event;
 import org.brussels.gtug.attendance.service.EventManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,28 +39,41 @@ public class EventController {
 		JSONArray list = new JSONArray();
 		if (events != null) {
 			for (Event event : events) {
-				try {
-					JSONObject map = new JSONObject();
-					map.put("chapterId", event.getChapterId());
-					map.put("id", event.getId());
-					map.put("name", event.getName());
-					map.put("timeZone", event.getTimeZone());
-					map.put("startDate", event.getStartDate());
-					map.put("endDate", event.getEndDate());
-					map.put("city", event.getCity());
-					map.put("state", event.getState());
-					map.put("country", event.getCountry());
-					map.put("latitude", event.getLatitude());
-					map.put("longitude", event.getLongitude());
-					map.put("url", event.getUrl());
-					map.put("themes", event.getTopics());
-					list.put(map);
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+				list.put(getJSONObject(event));
 			}
 		}
 		return list.toString();
+	}
+	
+	@RequestMapping(value = "/{eventId}", method = RequestMethod.GET)
+	@ResponseBody
+	public String get(@PathVariable("eventId") Long eventId) {
+		Event event = eventManager.getEvent(eventId);
+		return getJSONObject(event).toString();
+	}
+	
+	protected JSONObject getJSONObject(Event event) {
+		try {
+			JSONObject object = new JSONObject();
+			object.put("chapterId", event.getChapterId());
+			object.put("id", event.getId());
+			object.put("name", event.getName());
+			object.put("timeZone", event.getTimeZone());
+			object.put("startDate", event.getStartDate());
+			object.put("endDate", event.getEndDate());
+			object.put("city", event.getCity());
+			object.put("state", event.getState());
+			object.put("country", event.getCountry());
+			object.put("latitude", event.getLatitude());
+			object.put("longitude", event.getLongitude());
+			object.put("url", event.getUrl());
+			object.put("themes", event.getTopics());
+			object.put("attendees", event.getAttendees());
+			return object;
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@RequestMapping(value = "/sync", method = RequestMethod.GET)
@@ -74,6 +88,15 @@ public class EventController {
 						@RequestParam("accountName") String accountName) {
 		
 		eventManager.checkin(eventId, accountName);
+	}
+
+	@RequestMapping(value = "/attendees", method = RequestMethod.POST)
+	@ResponseBody
+	public void attendees(@RequestParam("eventId") Long eventId) {
+		
+		
+		//eventManager.getReg(eventId, accountName);
+		
 	}
 
 }

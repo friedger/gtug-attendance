@@ -5,8 +5,12 @@ import java.security.NoSuchAlgorithmException;
 
 public class Security {
 
+	private static final String SALT = "qS45sd6pdcx789";
+	
 	public static String sha1(String s) {
 		try {
+			s += SALT;
+			
 	        // Create MD5 Hash
 	        MessageDigest digest = java.security.MessageDigest.getInstance("SHA-1");
 	        digest.update(s.getBytes());
