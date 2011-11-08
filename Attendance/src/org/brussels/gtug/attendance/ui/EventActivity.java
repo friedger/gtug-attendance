@@ -2,6 +2,7 @@ package org.brussels.gtug.attendance.ui;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -55,15 +56,18 @@ public class EventActivity extends ListActivity implements OnItemClickListener {
 				String response = Http.get(Constants.APP_SERVER_URL + Constants.ROUTE_EVENTS);
 				try {
 					JSONArray data = new JSONArray(response);
-					Event meeting = null;
+					Event event = null;
 					for (int i=0; i<data.length(); i++) {
 						JSONObject object = data.getJSONObject(i);
-						meeting = new Event();
-						meeting.setId(object.getInt("id"));
-						meeting.setName(object.getString("name"));
+						event = new Event();
+						event.setId(object.getInt("id"));
+						event.setName(object.getString("name"));
 						//meeting.setDescription(object.getString("description"));
-						meeting.setUrl(object.getString("url"));
-						meetings.add(meeting);
+						event.setUrl(object.getString("url"));
+						String timeZone = object.getString("timeZone");
+						event.setStartDate(Util.parseJsonDate(object.getString("startDate"), timeZone));
+						event.setEndDate(Util.parseJsonDate(object.getString("endDate"), timeZone));
+						meetings.add(event);
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -74,7 +78,12 @@ public class EventActivity extends ListActivity implements OnItemClickListener {
 			
 			@Override
 			protected void onPostExecute(List<Event> result) {
-				events = result;
+				
+				Collections.sort(result);
+				Collections.reverse(result);
+				
+				events =  result;
+				
 				showEvents();
 				
 			}
@@ -82,6 +91,7 @@ public class EventActivity extends ListActivity implements OnItemClickListener {
 	}
 	
 	protected void showEvents() {
+		
 		getListView().setAdapter(
 				new MeetingAdapter(
 						EventActivity.this, 

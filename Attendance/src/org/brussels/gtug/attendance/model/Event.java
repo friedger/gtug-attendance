@@ -1,14 +1,16 @@
 package org.brussels.gtug.attendance.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
-public class Event implements Serializable {
+public class Event implements Serializable, Comparable<Event> {
 
 	private int id;
 	private String name;
 	private String description;
 	private String url;
-	private String date;
+	private Date startDate;
+	private Date endDate;
 	
 	public int getId() {
 		return id;
@@ -34,11 +36,21 @@ public class Event implements Serializable {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public String getDate() {
-		return date;
+	public Date getStartDate() {
+		return startDate;
 	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+	public Date getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+	@Override
+	public int compareTo(Event another) {
+		return getStartDate().compareTo(another.getEndDate());
 	}
 	
 }

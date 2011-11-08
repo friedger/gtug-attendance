@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -139,11 +140,20 @@ public class Util {
         return Util.class.getPackage().getName();
     }
     
-    private final static DateFormat jsonDateFormat = new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy");
+    // following date formatter should work but it does not on android although it work on standard java 
+    // we need to strip out the timezone part ourselves before parsing it 
+    //private final static DateFormat jsonDateFormat = new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy", Locale.US);
+    private final static DateFormat jsonDateFormat = new SimpleDateFormat("EEE MMM d HH:mm:ss yyyy", Locale.US);
     
-    public static Date parseJsonDate(String dateString) {
+    public static Date parseJsonDate(String dateString, String timeZone) {
 		try {
-			return jsonDateFormat.parse(dateString);
+
+			dateString = dateString.contains("UTC") ? dateString.replace("UTC ", "") : dateString;
+			
+			jsonDateFormat.setTimeZone(TimeZone.getTimeZone(timeZone));
+			
+			Date date = (Date)jsonDateFormat.parse(dateString);
+			return date;
 		} catch (ParseException e) {
 			
 			e.printStackTrace();

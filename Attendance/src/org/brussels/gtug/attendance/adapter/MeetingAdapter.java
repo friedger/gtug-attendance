@@ -38,7 +38,7 @@ public class MeetingAdapter extends ArrayAdapter<Event>{
 			}
 			TextView t2 = (TextView) v.findViewById(android.R.id.text2);
 			if (t2 != null) {
-				t2.setText(m.getName());
+				t2.setText(m.getStartDate().toLocaleString());
 			}
 		}
 		return v;
