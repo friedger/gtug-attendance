@@ -1,10 +1,14 @@
 package org.brussels.gtug.attendance.adapter;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import org.brussels.gtug.attendance.model.Event;
 
 import android.content.Context;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +18,8 @@ import android.widget.TextView;
 public class MeetingAdapter extends ArrayAdapter<Event>{
 
 	private int viewResourceId;
+	
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("d MMMM yyyy - HH:mm");
 	
 	public MeetingAdapter(Context context, int textViewResourceId,
 			List<Event> items) {
@@ -38,7 +44,11 @@ public class MeetingAdapter extends ArrayAdapter<Event>{
 			}
 			TextView t2 = (TextView) v.findViewById(android.R.id.text2);
 			if (t2 != null) {
-				t2.setText(m.getStartDate().toLocaleString());
+				
+				/*Calendar cal = Calendar.getInstance();
+				cal.*/
+
+				t2.setText(dateFormat.format(m.getStartDate()));
 			}
 		}
 		return v;

@@ -150,7 +150,7 @@ public class Util {
 
 			dateString = dateString.contains("UTC") ? dateString.replace("UTC ", "") : dateString;
 			
-			jsonDateFormat.setTimeZone(TimeZone.getTimeZone(timeZone));
+			//jsonDateFormat.setTimeZone(TimeZone.getTimeZone(timeZone));
 			
 			Date date = (Date)jsonDateFormat.parse(dateString);
 			return date;
