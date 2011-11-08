@@ -15,6 +15,10 @@
  */
 package org.brussels.gtug.attendance;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -128,13 +132,22 @@ public class Util {
         return context.getSharedPreferences(SHARED_PREFS, 0);
     }
 
-   
-
- 
     /**
      * Returns the package name of this class.
      */
     private static String getPackageName() {
         return Util.class.getPackage().getName();
+    }
+    
+    private final static DateFormat jsonDateFormat = new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy");
+    
+    public static Date parseJsonDate(String dateString) {
+		try {
+			return jsonDateFormat.parse(dateString);
+		} catch (ParseException e) {
+			
+			e.printStackTrace();
+		}
+		return null;
     }
 }
