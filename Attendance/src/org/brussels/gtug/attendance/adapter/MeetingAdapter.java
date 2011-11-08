@@ -32,10 +32,14 @@ public class MeetingAdapter extends ArrayAdapter<Event>{
 		}
 		Event m = getItem(position);
 		if (m != null) {
-			TextView tt = (TextView) v.findViewById(android.R.id.text1);
-			if (tt != null) {
-				tt.setText(m.getName());
-			}			
+			TextView t1 = (TextView) v.findViewById(android.R.id.text1);
+			if (t1 != null) {
+				t1.setText(m.getName());
+			}
+			TextView t2 = (TextView) v.findViewById(android.R.id.text2);
+			if (t2 != null) {
+				t2.setText(m.getName());
+			}
 		}
 		return v;
 	}

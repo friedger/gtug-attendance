@@ -1,5 +1,6 @@
 package org.brussels.gtug.attendance.ui;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,14 +26,26 @@ import android.widget.Toast;
 
 public class EventActivity extends ListActivity implements OnItemClickListener {
 
+	private static final String KEY_EVENTS = "keyEvents";
+	
 	private List<Event> events;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		getListView().setOnItemClickListener(this);
 		
+		if (savedInstanceState != null && savedInstanceState.containsKey(KEY_EVENTS)) {
+			events = (List<Event>) savedInstanceState.getSerializable(KEY_EVENTS);
+			showEvents();
+		} else {
+			getEvents();
+		}
+	}
+		
+	protected void getEvents() {
 		new AsyncTask<Void, Void, List<Event>>() {
 
 			@Override
@@ -62,17 +75,27 @@ public class EventActivity extends ListActivity implements OnItemClickListener {
 			@Override
 			protected void onPostExecute(List<Event> result) {
 				events = result;
-				getListView().setAdapter(
-						new MeetingAdapter(
-								EventActivity.this, 
-								android.R.layout.simple_list_item_1,
-								events
-								));
+				showEvents();
 				
 			}
 		}.execute();
 	}
-
+	
+	protected void showEvents() {
+		getListView().setAdapter(
+				new MeetingAdapter(
+						EventActivity.this, 
+						android.R.layout.simple_list_item_2,
+						events
+						));
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putSerializable(KEY_EVENTS, (Serializable) events);
+		super.onSaveInstanceState(outState);
+	}
+	
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		
