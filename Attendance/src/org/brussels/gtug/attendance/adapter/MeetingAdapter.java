@@ -2,7 +2,7 @@ package org.brussels.gtug.attendance.adapter;
 
 import java.util.List;
 
-import org.brussels.gtug.attendance.model.Meeting;
+import org.brussels.gtug.attendance.model.Event;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,12 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class MeetingAdapter extends ArrayAdapter<Meeting>{
+public class MeetingAdapter extends ArrayAdapter<Event>{
 
 	private int viewResourceId;
 	
 	public MeetingAdapter(Context context, int textViewResourceId,
-			List<Meeting> items) {
+			List<Event> items) {
 		super(context, textViewResourceId, items);
 		viewResourceId = textViewResourceId;
 		
@@ -30,7 +30,7 @@ public class MeetingAdapter extends ArrayAdapter<Meeting>{
 					Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(viewResourceId, null);
 		}
-		Meeting m = getItem(position);
+		Event m = getItem(position);
 		if (m != null) {
 			TextView tt = (TextView) v.findViewById(android.R.id.text1);
 			if (tt != null) {

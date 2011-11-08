@@ -4,7 +4,11 @@ import java.util.List;
 
 import org.brussels.gtug.attendance.domain.Event;
 
-
+/**
+ * 
+ * @author Sander Versluys
+ *
+ */
 public interface EventManager {
 
 	public void sync();

@@ -7,6 +7,11 @@ import javax.servlet.ServletContext;
 
 import org.brussels.gtug.attendance.domain.Device;
 
+/**
+ * 
+ * @author Sander Versluys
+ *
+ */
 public interface RegistrationManager extends Serializable {
 	
 	public void register(String deviceRegistrationId, String deviceType, String deviceId,String accountName);

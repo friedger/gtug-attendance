@@ -15,6 +15,11 @@ import com.google.appengine.repackaged.org.json.JSONArray;
 import com.google.appengine.repackaged.org.json.JSONException;
 import com.google.appengine.repackaged.org.json.JSONObject;
 
+/**
+ * 
+ * @author Sander Versluys
+ *
+ */
 @Controller
 @RequestMapping("/events*")
 public class EventController {

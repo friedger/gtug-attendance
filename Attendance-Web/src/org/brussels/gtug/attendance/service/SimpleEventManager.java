@@ -27,6 +27,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+/**
+ * 
+ * @author Sander Versluys
+ *
+ */
 @Service
 public class SimpleEventManager implements EventManager {
 
