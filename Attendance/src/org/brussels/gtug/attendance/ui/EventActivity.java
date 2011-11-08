@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -110,8 +111,13 @@ public class EventActivity extends ListActivity implements OnItemClickListener {
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		
 		Event event = (Event) arg0.getItemAtPosition(arg2);
+		
+		Intent intent = new Intent(this, EventDetailActivity.class);
+		intent.putExtra(EventDetailActivity.EXTRA_EVENT, event);
+		
+		startActivity(intent);
 
-		final SharedPreferences settings = Util.getSharedPreferences(this);
+		/*final SharedPreferences settings = Util.getSharedPreferences(this);
 		final String accountName = settings.getString(Util.ACCOUNT_NAME, "Unknown");
 		 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -120,7 +126,10 @@ public class EventActivity extends ListActivity implements OnItemClickListener {
 		 
 		String response = Http.post(Constants.APP_SERVER_URL + Constants.ROUTE_CHECKIN, params);
 		 
-		Toast.makeText(this, "signup response: " + response, Toast.LENGTH_LONG).show();
+		Toast.makeText(this, "signup response: " + response, Toast.LENGTH_LONG).show();*/
+		
+		
+		
 	}
 	
 }
