@@ -14,7 +14,7 @@ import org.brussels.gtug.attendance.domain.Device;
  */
 public interface RegistrationManager extends Serializable {
 	
-	public void register(String deviceRegistrationId, String deviceType, String deviceId,String accountName);
+	public void register(String deviceRegistrationId, String deviceType, String deviceId, String accountName);
 	 
 	public void unregister(String deviceRegistrationID, String accountName);
 	 

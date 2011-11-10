@@ -251,7 +251,7 @@ public class SimpleRegistrationManager implements RegistrationManager {
 		}
 
 		return push.sendNoRetry(device.getDeviceRegistrationID(),
-				collapseKey, "sender", sender, "message", message);
+				collapseKey, "action", "message", "data", message);
 	}
 
 }

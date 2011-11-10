@@ -16,18 +16,31 @@
         android:textColor="#ffffff"
         android:text="bloboe"
         android:textSize="16dip"/>
-
+    
+    <Button
+        android:id="@+id/checkin"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dip"
+        android:layout_below="@id/name"
+        android:gravity="center_horizontal"
+        android:text="Checkin!"
+        android:layout_marginTop="5px"
+        android:layout_weight="1" />
+    
     <TextView
         android:id="@+id/hello_world_info"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/name"
+        android:layout_below="@id/checkin"
         android:padding="10dip"
         android:background="#000000"
         android:textColor="#ffffff"
         android:text="@string/hello_world_info_text"
         android:textSize="16dip"/>
 
+    
+    
     <Button
         android:id="@+id/say_hello"
         android:layout_width="fill_parent"

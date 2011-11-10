@@ -1,9 +1,16 @@
 package org.brussels.gtug.attendance.web;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.ServletContext;
+
+import org.brussels.gtug.attendance.domain.Device;
 import org.brussels.gtug.attendance.domain.Event;
 import org.brussels.gtug.attendance.service.EventManager;
+import org.brussels.gtug.attendance.service.RegistrationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.ServletContextAware;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.google.android.c2dm.server.C2DMessaging;
 import com.google.appengine.repackaged.org.json.JSONArray;
 import com.google.appengine.repackaged.org.json.JSONException;
 import com.google.appengine.repackaged.org.json.JSONObject;
@@ -23,13 +33,26 @@ import com.google.appengine.repackaged.org.json.JSONObject;
  */
 @Controller
 @RequestMapping("/events*")
-public class EventController {
+public class EventController implements ServletContextAware {
 
+	private ServletContext servletContext;
 	private EventManager eventManager;
+	private RegistrationManager registrationManager;
 
+	@Autowired
+	@Override
+	public void setServletContext(ServletContext servletContext) {
+		this.servletContext = servletContext;
+	}
+	
 	@Autowired
 	public void setEventManager(EventManager eventManager) {
 		this.eventManager = eventManager;
+	}
+	
+	@Autowired
+	public void setRegistrationManager(RegistrationManager registrationManager) {
+		this.registrationManager = registrationManager;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -98,5 +121,55 @@ public class EventController {
 		//eventManager.getReg(eventId, accountName);
 		
 	}
+	
+	@RequestMapping(value = "/show/{eventId}", method = RequestMethod.GET)
+	public ModelAndView show(@PathVariable("eventId") Long eventId) {
+		Event event = eventManager.getEvent(eventId);
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("event", event);
+		
+		return new ModelAndView("event", model);
+	}
+	
+	public static final String ACTION_ALERT = "alert";
+	public static final String ACTION_VIBRATE = "vibrate";
+	public static final String ACTION_MESSAGE = "message";
+	
+	@RequestMapping(value = "/notify", method = RequestMethod.POST)
+	@ResponseBody
+	public String notify(@RequestParam("eventId") Long eventId,
+			             @RequestParam("action") String action,
+			             @RequestParam("data") String data) {
+		
+		Event event = eventManager.getEvent(eventId);
+		if (event != null) {
+			
+			C2DMessaging push = C2DMessaging.get(servletContext);
+			
+			String collapseKey = "" + action.hashCode();
+			
+			for (String accountName : event.getAttendees()) {
+				
+				List<Device> devices = registrationManager.getDevicesForAccount(accountName);
+				for (Device device : devices) {
+					
+					if ("ac2dm".equals(device.getType())) {
+						push.sendNoRetry(device.getDeviceRegistrationID(),
+								collapseKey, "action", action, "data", data);
+					}
+					
+				}
+				
+			}
+			
+			return "ok";
+		}
+		
+		return "failed";
+		
+	}
+
+	
 
 }

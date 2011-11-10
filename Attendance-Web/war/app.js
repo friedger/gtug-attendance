@@ -7,8 +7,9 @@ $(function() {
 	window.EventList = Backbone.Model.extend({
 		model: Event,
 		
-		
 	});
+	
+	window.Events = new EventList;
 	
 	$.get('events', function(data){
 		

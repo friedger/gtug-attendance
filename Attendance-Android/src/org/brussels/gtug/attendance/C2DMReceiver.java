@@ -20,6 +20,12 @@ import java.io.IOException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.c2dm.C2DMBaseReceiver;
 
@@ -71,6 +77,10 @@ public class C2DMReceiver extends C2DMBaseReceiver {
         context.sendBroadcast(new Intent(Util.UPDATE_UI_INTENT));
     }
 
+    public static final String ACTION_ALERT = "alert";
+	public static final String ACTION_VIBRATE = "vibrate";
+	public static final String ACTION_MESSAGE = "message";
+    
     /**
      * Called when a cloud message has been received.
      */
@@ -79,6 +89,34 @@ public class C2DMReceiver extends C2DMBaseReceiver {
         /*
          * Replace this with your application-specific code
          */
-        MessageDisplay.displayMessage(context, intent);
+    	
+    	Log.d(Constants.TAG, "Received C2DM intent: " + intent.toString());
+    	
+    	Bundle extras = intent.getExtras();
+    	if (extras != null) {
+    		
+    		String action = (String) extras.get("action");
+    		String data = (String) extras.get("data");
+    		if (action.equals(ACTION_ALERT)) {
+    			playNotificationSound(context);
+    		} else if (action.equals(ACTION_VIBRATE)) {
+    			
+    		} else if (action.equals(ACTION_MESSAGE)) {
+    			Util.generateNotification(context, "GTUG says " + data);
+                playNotificationSound(context);
+    		}
+    	}
+    	
+    }
+    
+    private static void playNotificationSound(Context context) {
+        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        if (uri != null) {
+            Ringtone rt = RingtoneManager.getRingtone(context, uri);
+            if (rt != null) {
+                rt.setStreamType(AudioManager.STREAM_NOTIFICATION);
+                rt.play();
+            }
+        }
     }
 }

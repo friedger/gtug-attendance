@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.brussels.gtug.attendance.Constants;
 import org.brussels.gtug.attendance.Util;
 import org.brussels.gtug.attendance.adapter.MeetingAdapter;
@@ -18,13 +16,11 @@ import org.json.JSONObject;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
 
 public class EventActivity extends ListActivity implements OnItemClickListener {
 
